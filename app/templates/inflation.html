@@ -1,4 +1,5 @@
 <!DOCTYPE html>{% load static %}
+{% load template_extras %}
 <html>
   <head>
     <meta charset="UTF-8">
@@ -17,8 +18,30 @@
       <div class="row">
         <h1 class="col s12">Инфляция в России</h1>
         <div class="col s12 m8">
-        
-        <!-- Ваша логика -->
+        <table>
+        <thead>
+          <tr>
+            {% for cell in inf_data|first  %}
+                <th>{{ cell }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for data_row in inf_data|slice:"1:"  %}
+            <tr>
+            {% for cell in data_row  %}
+                {% if forloop.first %}
+                    <td>{{ cell }}</td>
+                {% elif forloop.last %}
+                    <td class="grey" >{{ cell }}</td>
+                {% else %}
+                    <td {{ cell|float2color }}>{{ cell|default:"-"}}</td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
 
         </div>
       </div>
